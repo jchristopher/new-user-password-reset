@@ -41,18 +41,19 @@ class newUserPasswordReset {
 		wp_enqueue_script( 'new-user-password-reset', plugin_dir_url( __FILE__ ) . 'new-user-password-reset.js', array( 'jquery' ), $this->version, true );
 
 		$jsTrans = array(
-			'autoreset' => __( 'Automatically issue a password reset', $this->textDomain )
+			'autoreset' => __( 'Automatically issue a password reset', $this->textDomain ),
+			'nonce'     => wp_create_nonce( 'nuprnonce' ),
 		);
 		wp_localize_script( 'new-user-password-reset', 'new_user_password_reset_l10n', $jsTrans );
 	}
 
 	function triggerPasswordReset( $user_id ) {
-		if( ! isset( $_POST['auto_password_reset'] ) || ! current_user_can( 'edit_users' ) )
+		if( ! isset( $_POST['auto_password_reset'] ) || ! current_user_can( 'edit_users' ) || ! isset( $_POST['auto_password_reset_nonce'] ) || ! wp_verify_nonce( $_POST['auto_password_reset_nonce'], 'nuprnonce' ) )
 			return;
 
 		$userInfo = get_userdata( $user_id );
-		$target = site_url() . '/wp-login.php?action=lostpassword';
-		$args = array(
+		$target   = site_url() . '/wp-login.php?action=lostpassword';
+		$args     = array(
 			'body'        => array( 'user_login' => $userInfo->user_login ),
 			'sslverify'   => false,
 		);
