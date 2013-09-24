@@ -6,7 +6,7 @@
  * Description: Automatically trigger a password reset when creating new users to allow for more secure account introductions
  * Author:      Jonathan Christopher
  * Author URI:  http://mondaybynoon.com/
- * Version:     0.1.0
+ * Version:     1.0
  * Text Domain: nupr
  * Domain Path: /languages/
  * License:     GPLv2 or later
@@ -21,7 +21,7 @@ if( !defined( 'IS_ADMIN' ) ) define( 'IS_ADMIN',  is_admin() );
 
 class newUserPasswordReset {
 
-	public $version     = '0.1.0';
+	public $version     = '1.0';
 	public $textDomain  = 'nupr';
 
 	public function __construct() {
